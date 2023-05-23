@@ -6,6 +6,7 @@
 #include <wrl.h>
 #include <d3d12.h>
 #include <d3dx12.h>
+#include <fbxsdk.h>
 
 #include <string>
 #include <vector>
@@ -30,13 +31,32 @@ struct Node
 
 class Model
 {
+public: // 定数
+	// ボーンインデックスの最大数
+	static const int MAX_BONE_INDICES = 4;
 public: // サブクラス
 	// 頂点データ構造体
-	struct VertexPosNormalUv
+	struct VertexPosNormalUvSkin
 	{
 		DirectX::XMFLOAT3 pos;		// xyz座標
 		DirectX::XMFLOAT3 normal;	// 法線ベクトル
 		DirectX::XMFLOAT3 uv;		// uv座標
+		UINT boneIndex[MAX_BONE_INDICES];	// ボーン番号
+		float boneWeight[MAX_BONE_INDICES];	// ボーン重み
+	};
+	// ボーン構造体
+	struct Bone
+	{
+		// 名前
+		std::string name;
+		// 初期姿勢の逆行列
+		DirectX::XMMATRIX invInitialPose;
+		// クラスター(FBX側のボーン情報)
+		FbxCluster* fbxCluster;
+		// コンストラクタ
+		Bone(const std::string& name) {
+			this->name = name;
+		}
 	};
 private: // エイリアス
 	// Microsoft::WRL::を省略
@@ -54,12 +74,16 @@ private: // エイリアス
 public: // メンバ関数
 	// フレンドクラス
 	friend class FbxLoader;
+	// デストラクタ
+	~Model();
 	// バッファ生成
 	void CreateBuffers(ID3D12Device* device);
 	// 描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	// モデルの変形行列取得
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransForm; }
+	// getter
+	FbxScene* GetFbxScene() { return fbxScene; }
 private: // メンバ変数
 	// アンビエント係数
 	DirectX::XMFLOAT3 ambient = { 1,1,1 };
@@ -74,9 +98,13 @@ private: // メンバ変数
 	// ノード配列
 	std::vector<Node> nodes;
 	// 頂点データ配列
-	std::vector<VertexPosNormalUv> vertices;
+	std::vector<VertexPosNormalUvSkin> vertices;
 	// 頂点インデックス配列
 	std::vector<unsigned short> indices;
+	// ボーン配列
+	std::vector<Bone> bones;
+	// getter
+	std::vector<Bone>& GetBones() { return bones; }
 	// 頂点バッファ
 	ComPtr<ID3D12Resource> vertBuff;
 	// インデックスバッファ
@@ -91,4 +119,6 @@ private: // メンバ変数
 	ComPtr <ID3D12DescriptorHeap> descHeapSRV;
 	// メッシュを持つノード
 	Node* meshNode = nullptr;
+	// FBXシーン
+	FbxScene* fbxScene = nullptr;
 };

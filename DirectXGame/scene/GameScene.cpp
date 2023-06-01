@@ -60,8 +60,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
 	lightGroup = LightGroup::Create();
 
 	// カメラ注視点をセット
-	camera->SetTarget({0, 20, 0});
-	camera->SetDistance(100.0f);
+	camera->SetTarget({0, 0, 0});
+	camera->SetDistance(10.0f);
 
 	// デバイスをセット
 	Object3d::SetDevise(dxCommon->GetDevice());
@@ -70,7 +70,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
 	// グラフィックパイプライン生成
 	Object3d::CreateGraphicsPipeline();
 
-	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	model1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
 	// 3Dオブジェクト生成とモデルのセット
 	object1 = new Object3d;

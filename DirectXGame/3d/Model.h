@@ -84,6 +84,7 @@ public: // メンバ関数
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransForm; }
 	// getter
 	FbxScene* GetFbxScene() { return fbxScene; }
+	std::vector<Bone>& GetBones() { return bones; }
 private: // メンバ変数
 	// アンビエント係数
 	DirectX::XMFLOAT3 ambient = { 1,1,1 };
@@ -103,8 +104,6 @@ private: // メンバ変数
 	std::vector<unsigned short> indices;
 	// ボーン配列
 	std::vector<Bone> bones;
-	// getter
-	std::vector<Bone>& GetBones() { return bones; }
 	// 頂点バッファ
 	ComPtr<ID3D12Resource> vertBuff;
 	// インデックスバッファ

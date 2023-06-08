@@ -76,6 +76,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
 	object1 = new Object3d;
 	object1->Initalize();
 	object1->SetModel(model1);
+	object1->PlayAnimation();
 }
 
 void GameScene::Update()

@@ -67,10 +67,15 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+	/// <summary>
 	/// モデルのセット
 	/// </summary>
 	/// <param name="model">モデル</param>
 	void SetModel(Model* model) { this->model = model; }
+	/// <summary>
+	/// アニメーション開始
+	/// </summary>
+	void PlayAnimation();
 protected: // メンバ変数
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuffTransform;
@@ -83,6 +88,16 @@ protected: // メンバ変数
 	XMFLOAT3 position = { 0,0,0 };
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
+	// 1フレームの時間
+	FbxTime frameTime;
+	// アニメーション開始時間
+	FbxTime startTime;
+	// アニメーション終了時間
+	FbxTime endTime;
+	// 現在時間（アニメーション）
+	FbxTime currentTime;
+	// アニメーション再生中
+	bool isPlay = false;
 	//モデル
 	Model* model = nullptr;
 };

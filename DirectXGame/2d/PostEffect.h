@@ -15,6 +15,10 @@ public: // メンバ関数
     /// </summary>
     void Initialize();
     /// <summary>
+    /// パイプライン生成
+    /// </summary>
+    void CreateGraphicsPipelineState();
+    /// <summary>
     /// 描画コマンドの発行
     /// </summary>
     /// <param name="cmdList">コマンドリスト</param>
@@ -43,4 +47,8 @@ private: // メンバ変数
     ComPtr<ID3D12DescriptorHeap> descHeapRTV;
     // DSVデスクリプタヒープ
     ComPtr<ID3D12DescriptorHeap> descHeapDSV;
+    // グラフィックスパイプライン
+    ComPtr<ID3D12PipelineState> pipelineState;
+    // ルートシグネチャ
+    ComPtr<ID3D12RootSignature> rootSignature;
 };

@@ -38,7 +38,7 @@ private:// 静的メンバ変数
     static const float clearColor[4];
 private: // メンバ変数
     // テクスチャバッファ
-    ComPtr<ID3D12Resource> texBuff;
+    ComPtr<ID3D12Resource> texBuff[2];
     // 深度バッファ
     ComPtr<ID3D12Resource> depthBuff;
     // SRV用デスクリプタヒープ
